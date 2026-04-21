@@ -1,0 +1,1552 @@
+:root {
+  --color-bg: #ffffff;
+  --color-primary: #0c2340;
+  --color-primary-hover: #152f52;
+  --color-text: #334155;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --works-surface: #f5f5f7;
+  --works-ink: #1d1d1f;
+  --works-ink-muted: #86868b;
+  --works-border: rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 12px 28px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.08), 0 24px 48px rgba(0, 0, 0, 0.12);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-card: 1.375rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* これがないと、paddingの5%分が計算を狂わせます */
+}
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  /* --- ★ガラスモーフィズムの核 --- */
+  /* 1. 背景を少しだけ白く、かつ透明にする */
+  background: rgba(255, 255, 255, 0.8); 
+  
+  /* 2. 背景をぼかす（これが一番重要！） */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* Safari対策 */
+
+  /* 3. ごく細い境界線を入れて「板」としての実体感を出す */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* 4. わずかに影を落として浮いている感じを出す */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+
+  transition: all 0.3s ease;
+}
+
+.site-header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-header__name {
+  font-weight: 800;
+  font-size: 1.125rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.site-header__name:hover {
+  color: var(--color-primary-hover);
+  text-decoration: none;
+}
+
+.site-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.site-nav a {
+  position: relative;
+  display: inline-block;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding-bottom: 0.2em;
+  transition: color 0.25s ease;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: scaleX(0) translateY(4px);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--color-primary-hover);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1) translateY(0);
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
+
+.hero {
+  padding: 2.5rem 0 3.5rem;
+}
+
+.hero__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero__content {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.hero__catch {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+}
+
+.hero__lead {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  max-width: 36ch;
+}
+
+.hero__photo {
+  margin: 0;
+  flex: 0 1 320px;
+  max-width: 100%;
+}
+
+.hero__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 6px -1px rgba(12, 35, 64, 0.07),
+    0 2px 4px -2px rgba(12, 35, 64, 0.06);
+}
+
+.works {
+  margin: 0 -1.5rem;
+  padding: 3rem 1.5rem 3.5rem;
+  border-top: none;
+  background: var(--works-surface);
+  border-radius: 1.25rem;
+}
+
+.works__inner {
+  max-width: 100%;
+}
+
+.works__title {
+  margin: 0 0 2rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--works-ink);
+}
+
+.works__cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 1rem;
+}
+
+.work-card {
+  flex: 1 1 220px;
+  padding: 1.75rem 1.5rem;
+  background: var(--color-bg);
+  border: 1px solid var(--works-border);
+  border-radius: var(--radius-card);
+  margin: 0;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+}
+
+.work-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.work-card__title {
+  margin: 0 0 0.6rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--works-ink);
+}
+
+.work-card__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: 0.004em;
+  color: var(--works-ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-nav a::after {
+    transition: none;
+    transform: scaleX(0) translateY(0);
+  }
+
+  .site-nav a:hover::after,
+  .site-nav a:focus-visible::after {
+    transform: scaleX(1) translateY(0);
+  }
+
+  .work-card {
+    transition: none;
+  }
+
+  .work-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-nav__list {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .hero__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__photo {
+    flex-basis: auto;
+    order: -1;
+  }
+
+  .works__cards {
+    flex-direction: column;
+  }
+
+  .work-card {
+    flex: 1 1 auto;
+  }
+}
+
+/* セクション全体の箱 */
+.split-section {
+  display: flex;
+  align-items: flex-start; /* 上揃えにする */
+  background-color: #ffffff;
+}
+
+/* 【左側】言葉のエリア：ここを固定する */
+.split-section__left {
+  flex: 0 0 40%;  
+  padding: 40px;      /* 幅半分 */
+  height: 100vh;         /* 画面一杯の高さ */
+  position: sticky;      /* ★魔法の1行：固定する */
+  top: 0;                /* 画面の一番上で止まる */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+}
+
+/* 【右側】コンテンツエリア：ここを長くしてスクロールさせる */
+.split-section__right {
+  flex: 0 0 60%;         /* 幅半分 */
+  padding: 50px;         /* 余白 */
+}
+
+/* 右側の中にある写真（複数並べるとより効果的です） */
+.split-section__img {
+  width: 100%;
+  height: auto;          /* 高さは自動 */
+  margin-bottom: 60px;  /* 次の写真との間隔をあける */
+  border-radius: 12px;   /* 角丸 */
+}
+/* 写真を囲むリンク自体の設定 */
+.work-link {
+  display: block;        /* エリアいっぱいに広げる */
+  overflow: hidden;      /* はみ出た分を隠す（ズーム用） */
+  margin-bottom: 60px;   /* 写真同士の間隔 */
+  border-radius: 12px;   /* 写真の角を丸くする */
+  background-color: var(--color-primary); /* 下地の色（透けた時に見える色） */
+}
+
+/* 通常時の写真の状態 */
+.split-section__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 0;      /* 外側のaタグで調整するので0にする */
+  transition: all 0.5s ease; /* 変化をふわっとさせる（0.5秒） */
+  filter: brightness(1);    /* 最初は普通の明るさ */
+}
+
+/* ★マウスが触れた（hover）時の魔法 */
+.work-link:hover .split-section__img {
+  transform: scale(1.05);   /* 5%だけゆっくりズームアップ */
+  filter: brightness(0.6);  /* 少し暗くして「選んだ感」を出す */
+  /* または filter: grayscale(100%); で白黒にするのもお手本サイト風でカッコいいです */
+}
+
+/* マウスが重なった時に「指マーク」にする */
+.work-link {
+  cursor: pointer;
+}
+/* --- style.css に追加・上書きしてください --- */
+
+/* 右側エリア全体（ここを少し狭くして写真を小さく見せる） */
+.split-section__right {
+  flex: 0 0 50%;         /* 幅を50%に戻す（または好みの比率に） */
+  padding: 80px 10%;     /* 左右の余白（10%）を大きく取って、写真を中央に寄せる */
+  background-color: #ffffff; /* 背景色をごく薄いグレーにしてプロ感を出す */
+}
+
+/* 画像と文字を束ねるリンク（aタグ） */
+.work-link {
+  display: block;
+  text-decoration: none; /* リンクの下線を消す */
+  margin-bottom: 80px;   /* 写真同士の間隔 */
+  cursor: pointer;       /* 指マークにする */
+}
+
+
+/* 画像自体の設定 */
+.split-section__img {
+  width: 100%;           /* コンテナの幅いっぱい */
+  height: auto;
+  display: block;
+  transition: transform 0.6s var(--ease-out-expo), filter 0.6s ease; /* ふわっと動かす */
+  filter: brightness(1); /* 最初は普通の明るさ */
+}
+
+/* ホバー時の画像の変化 */
+.work-link:hover .split-section__img {
+  transform: scale(1.08); /* 8%だけズームアップ */
+  filter: brightness(0.5); /* 半分くらい暗くして、文字を読みやすくする */
+}
+
+/* 【重要】浮かび上がる文字（spanタグ）の設定 */
+.work-link__label {
+  position: absolute;    /* ★コンテナに対して絶対位置で配置 */
+  top: 50%;              /* 上下中央 */
+  left: 50%;             /* 左右中央 */
+  transform: translate(-50%, -50%); /* 真ん中に配置するための微調整 */
+  
+  color: #ffffff;        /* 文字色は白 */
+  font-family: var(--font-primary); /* フォントを合わせる */
+  font-size: 0.875rem;   /* 小さめで洗練されたサイズ */
+  font-weight: 800;      /* 太く */
+  letter-spacing: 0.15em; /* 文字間を広げてプロ感を出す */
+  text-transform: uppercase; /* 大文字にする（お手本サイト風） */
+  
+  /* --- ★ここがご希望の動作の核心 --- */
+  opacity: 0;            /* 最初は透明 */
+  transition: opacity 0.4s ease, transform 0.4s ease; /* ふわっと出す */
+}
+
+/* ★マウスが触れた（hover）時の文字の変化 */
+.work-link:hover .work-link__label {
+  opacity: 1;            /* 透明度を1（100%）にして表示 */
+  /* transform: translate(-50%, -50%) scale(1.1); */ /* 必要なら少し大きくしても面白い */
+}
+
+.work-link__img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0px; /* ついでにここで角の丸みも調整できます */
+  box-shadow: none;    /* ← 影を「なし」に設定 */
+}
+
+/* 写真そのもの */
+.split-section__img {
+  /* ...既存の設定... */
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 1.2s ease; /* 0.6秒から1.2秒へ。ゆっくり動くのが高級感のコツ */
+}
+
+/* 文字（VIEW PROJECT） */
+.work-link__label {
+  /* ...既存の設定... */
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.2em; /* 最初から少し広げておく */
+}
+
+.work-link:hover .work-link__label {
+  opacity: 1;
+  letter-spacing: 0.4em;  /* ホバーした時に、文字の間隔がさらに広がる演出 */
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.work-link__label {
+  /* ...既存の設定... */
+  letter-spacing: 0.1em; /* 最初は少し狭く */
+}
+
+.work-link:hover .work-link__label {
+  /* ...既存の設定... */
+  letter-spacing: 0.25em; /* 広げすぎない */
+}
+.work-link__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* 最初からこの形にしておく */
+  transform: translate(-50%, -50%) scale(1);
+  text-align: center;
+  width: 100%; /* 親要素の幅いっぱいを基準にする */
+}
+
+.work-link:hover .work-link__label {
+  /* scaleの変化だけを加える */
+  transform: translate(-50%, -50%) scale(1.1);
+}
+/* 1. 最初は透明で、下に沈んでいる状態 */
+.work-link {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 2.5s cubic-bezier(0.16, 1, 0.3, 1); /* ヌルッとした動き */
+}
+
+/* 2. JavaScriptによって「show」クラスが付いた時の状態 */
+.work-link.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* 1. 境界線の土台（最初は幅0） */
+.split-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;              /* 最初は長さゼロ */
+  height: 1px;           /* 線の太さ */
+  background-color: var(--color-border);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1); /* ヌルッと伸びる */
+  z-index: 5;
+}
+
+/* 2. 中央の縦線（最初は高さ0） */
+.split-section__left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 0;             /* 最初は高さゼロ */
+  background-color: var(--color-border);
+  transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 1.0s; /* 上の線が引かれた後に動き出す */
+}
+
+/* 3. 画面に入った（showクラスが付いた）時の状態 */
+.split-section.show::before {
+  width: 100%;           /* 横線が端まで伸びる */
+}
+
+.split-section.show .split-section__left::after {
+  height: 100%;          /* 縦線が下まで伸びる */
+}
+/* 右側エリア全体の余白を調整して、写真を右に寄せる */
+.split-section__right {
+  flex: 0 0 50%;
+  
+  /* --- ここを修正 --- */
+  /* padding: 上下 左右;  →  padding: 上 右 下 左; の順番で指定します */
+  padding: 80px 5% 80px 15%; 
+  /* 右の余白を5%に減らし、左を15%に増やすことで、写真が右へ移動します */
+  
+  background-color: #ffffff;
+  position: relative; /* 境界線の位置を安定させるため */
+}
+.split-section__right {
+  flex: 0 0 60%;         /* もし全体を大きくしたいなら、ここを50%から60%に上げるのもアリです */
+  
+  /* --- ここを修正：左の余白（4番目の数字）を小さくします --- */
+  /* padding: 上 右 下 左; */
+  padding: 80px 2% 80px 5%; 
+  /* 右を2%、左を5%まで攻めると、写真は画面の横幅いっぱいに近く広がります */
+  
+  background-color: #ffffff;
+}
+.split-section__img {
+  width: 100%;           /* 親要素の幅いっぱいに広げる */
+  
+  /* --- ★ここが最重要：横長に固定する --- */
+  aspect-ratio: 16 / 10;  /* 横16：縦9のワイド比率（YouTubeなどと同じ） */
+  object-fit: cover;     /* 指定した比率に合わせて、中身を綺麗に切り抜く */
+  /* ----------------------------------- */
+
+  height: auto;
+  display: block;
+  transition: transform 1.2s var(--ease-out-expo), filter 1.2s ease;
+  
+  /* 角の丸みをここで強調すると、より「カード」らしくなります */
+  border-radius: 0px;   
+}
+.split-section__content h2 {
+  font-size: clamp(2rem, 5vw, 5rem); /* 極限まで大きく */
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.split-section__content p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+  max-width: 22em; /* 1行を短くして「余白」を作る */
+  border-left: 2px solid var(--color-primary); /* 左に細い線を引いてアクセントに */
+  padding-left: 1.5rem;
+}
+/* <span> で囲った部分だけ「中抜き文字」にする（テック感） */
+.hero-title span {
+  display: block;
+  -webkit-text-stroke: 1px var(--color-primary);
+  color: transparent;
+}
+
+/* 強調したい文字に「AIっぽさ」を足す */
+strong {
+  color: var(--color-primary);
+  font-weight: 800;
+  background: linear-gradient(transparent 70%, rgba(12, 35, 64, 0.1) 0%); /* 薄いアンダーライン */
+}
+.fusion-text {
+  display: flex;
+  flex-direction: column;  /* 縦に並べる */
+  gap: 0.5rem;            /* 行間の隙間 */
+  width: 100%;
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+/* 1段目：左寄せ（デフォルト） */
+.line-top {
+  align-self: flex-start;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+/* 2段目：中央寄せ */
+.line-center {
+  align-self: center;
+  font-size: 0.9rem;
+  color: var(--color-border); /* あえて薄くして「繋ぎ役」にする */
+  position: relative;
+}
+
+/* 3段目：右寄せ */
+.line-bottom {
+  align-self: flex-end;
+  color: var(--color-primary);
+  font-weight: 800;
+  text-align: right;
+}
+
+/* 装飾：strongタグを目立たせる */
+.fusion-text strong {
+  display: inline-block;
+  background: linear-gradient(transparent 70%, rgba(12, 35, 64, 0.05) 0%);
+}
+.line-center::before,
+.line-center::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px;           /* 線の長さ */
+  height: 1px;
+  background-color: var(--color-border);
+}
+.line-center::before { right: 100%; margin-right: 10px; }
+.line-center::after { left: 100%; margin-left: 10px; }
+.line-top    { transition-delay: 0.2s; }
+.line-center { transition-delay: 0.4s; }
+.line-bottom { transition-delay: 0.6s; }
+.split-section__left {
+  flex: 0 0 40%;  
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  
+  display: flex;
+  align-items: center;      /* 上下は中央のまま */
+  justify-content: flex-start; /* ★ここを center から flex-start に変更 */
+  padding: 50px 8% 50px 5%;   /* ★左の余白を 5% にし、右側を 8% 空けて余裕を作る */
+}
+
+/* 中のコンテンツが広がりすぎないように制限する */
+.split-section__content {
+  max-width: 440px;          /* ★幅を制限することで、より「左に寄っている感」が出ます */
+  width: 100%;
+}
+.fusion-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;              /* または 90% くらいに絞る */
+  margin-top: 3rem;
+}
+
+/* 右下の文字が右側に飛び出しすぎないように調整 */
+.line-bottom {
+  align-self: flex-end;
+  text-align: right;
+  max-width: 80%;           /* ★幅を少し絞ることで、バランスが良くなります */
+}
+/* 「ーとー」の部分を濃く、力強くする */
+.line-center {
+  align-self: center;
+  font-size: 1.2rem;        /* 少し大きくして存在感を出す */
+  font-weight: 900;         /* 圧倒的に太くする */
+  color: var(--color-primary); /* 文字色をメインの濃い色に変更 */
+  letter-spacing: 0.2em;    /* 「ー」と「と」の間を少し広げるとテック感が出ます */
+  position: relative;
+  opacity: 1;               /* 透明度を100%にする */
+}
+
+/* 左右の横線も濃くしたい場合 */
+/* 「と」と、背後の大きなXマーク */
+.line-center {
+  align-self: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  position: relative;       /* ★Xマークの基準点にする */
+  padding: 20px;            /* ★Xマークを描くためのスペースを作る */
+  z-index: 1;               /* ★「と」をXマークより前に出す */
+}
+
+
+
+.big-x {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* 最初の中央配置 */
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  z-index: -1;
+  pointer-events: none;
+
+  /* --- ★ここから：スクロール連動の設定 --- */
+  view-timeline-name: --x-scroll;
+  view-timeline-axis: block;
+  /* --- ★ここを修正：linear から cubic-bezier に変更 --- */
+  /* 第1・第2引数が「加速」、第3・第4引数が「減速」の具合を決めます */
+  animation: x-rotate cubic-bezier(0.9, 0, 0.1, 1) both;
+  
+  animation-timeline: --x-scroll;
+  animation-range: entry 10% exit 90%; /* 少し余裕を持たせると、より変化が分かりやすくなります */
+}
+ 
+
+/* 回転量を大幅にアップ */
+@keyframes x-rotate {
+  from {
+    /* 開始時：0度 */
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    /* 終了時：360度（ちょうど1回転） */
+    /* もっと激しくしたければ 720deg（2回転）にしてみてください */
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Xの1本目の線（右下がり） */
+.big-x::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  width: 30px;    /* ★線の太さ（4pxでかなり濃くなります） */
+  height: 100%;
+  background-color: var(--color-primary); /* ★色を文字と同じ濃い色に */
+  transform: translateX(-50%) rotate(50deg);
+}
+
+/* Xの2本目の線（右上がり） */
+.big-x::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  width: 30px;    /* ★線の太さ */
+  height: 100%;
+  background-color: var(--color-primary);
+  transform: translateX(-50%) rotate(-45deg);
+}
+/* Xの1本目 */
+.big-x::before {
+  /* ...既存の設定（width: 4px など）... */
+  
+  /* ★ここを修正：rgba(赤, 緑, 青, 透明度) */
+  /* 透明度は 0（透明）〜 1（不透明）の間で指定します */
+  background-color: rgba(12, 35, 64, 0.15); 
+  /* 0.15 なら「うっすら」、0.4 なら「しっかり」透けます */
+  
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Xの2本目 */
+.big-x::after {
+  /* ...既存の設定... */
+  
+  background-color: rgba(12, 35, 64, 0.15); /* ★1本目と同じ数値に */
+  
+  transform: translateX(-50%) rotate(-45deg);
+}
+.contact {
+  padding: 120px 1.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid var(--color-border);
+}
+
+.contact__inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact__title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.contact__title span {
+  -webkit-text-stroke: 1px var(--color-primary);
+  color: transparent;
+}
+
+.contact__lead {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-bottom: 4rem;
+}
+
+/* フォームの入力欄：線を基調にする */
+.form-group {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--color-primary);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem 0;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  font-size: 1rem;
+  transition: border-color 0.4s ease;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-bottom-color: var(--color-primary);
+}
+
+/* 送信ボタン：ホバーで矢印が動く演出 */
+.contact__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out-expo);
+  margin-top: 2rem;
+}
+
+.contact__submit:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+}
+
+.submit-arrow {
+  transition: transform 0.4s ease;
+}
+
+.contact__submit:hover .submit-arrow {
+  transform: translateX(10px);
+}
+/* ヘッダー全体の固定設定 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 5%; /* 上下の余白 */
+  z-index: 1000;
+  pointer-events: none; /* 下のコンテンツの邪魔をしない */
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between; /* 最初は左右いっぱいに離す */
+  align-items: center;
+  max-width: 1600px; /* 画面幅に応じた最大幅 */
+  margin: 0 auto;
+  position: relative;
+  
+  /* スクロール連動のタイムライン定義 */
+  view-timeline-name: --header-scroll;
+  view-timeline-axis: block;
+}
+
+/* 左右の文字共通スタイル（型を崩さない設定） */
+.header__item {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800; /* 読み込んでいる最も太いウェイト */
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  pointer-events: auto;
+  
+  /* アニメーション設定：序盤で素早く結合させる */
+  animation: header-merge linear both;
+  animation-timeline: --header-scroll;
+  animation-range: entry 0% exit 15%; 
+}
+
+/* 左側：右へ移動 */
+@keyframes header-merge {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(50vw - 50% - 70px)); } 
+  /* 70pxは中央のシンボルとの距離感。微調整してください */
+}
+
+/* 右側：左へ移動 */
+.header__item--right {
+  animation-name: header-merge-reverse;
+}
+
+@keyframes header-merge-reverse {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50vw + 50% + 70px)); }
+}
+
+/* 中央のシンボル（最初は透明、結合時に出現） */
+.header__center-symbol {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(0.5);
+  font-weight: 800;
+  opacity: 0;
+  color: var(--color-primary);
+  
+  animation: symbol-appear linear both;
+  animation-timeline: --header-scroll;
+  animation-range: entry 10% exit 15%;
+}
+
+@keyframes symbol-appear {
+  to { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+/* 親要素：flexboxに切り替え */
+.works__cards {
+  display: flex; /* gridからflexに変更 */
+  gap: 15px;      /* 箱同士の隙間 */
+  width: 100%;
+  height: 500px;  /* 高さを固定すると動きが綺麗に見えます */
+  margin-top: 50px;
+}
+
+/* 各カードの基本設定 */
+.work-card {
+  flex: 1; /* 最初はみんな同じ幅 (1/3) */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  
+  /* ★ここが重要：滑らかに動かすための設定 */
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+/* ★ホバーした箱：横幅を大きく広げる */
+.work-card:hover {
+  flex: 2; /* 他の箱の「2倍」の幅になる */
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-primary);
+}
+
+/* ホバーされていない他の箱を少し暗くして、主役を際立たせる（隠し味） */
+.works__cards:has(.work-card:hover) .work-card:not(:hover) {
+  opacity: 0.6;
+  filter: blur(1px); /* 軽くぼかすとより没入感が出ます */
+}
+/* 親の箱（動く方） */
+.work-card {
+  flex: 1;
+  min-width: 100px; /* 縮みすぎを防ぐ */
+  overflow: hidden; /* はみ出た文字を隠す（重要） */
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.3, 1);
+  /* その他のスタイルは維持 */
+}
+
+/* ★中身（固定する方） */
+.work-card__content {
+  width: 350px; /* ★ここを「広がった時の理想の幅」で固定する */
+  padding: 0;
+  flex-shrink: 0; /* ★箱が縮んでも、中身は絶対に縮ませない命令 */
+  transition: opacity 0.4s ease;
+}
+
+/* ホバーしていない時の文字を少し薄くすると、さらにプロっぽい */
+.work-card:not(:hover) .work-card__content {
+  opacity: 0.5; /* 縮んでいる時は情報を控えめに */
+}
+/* タグ全体のコンテナ */
+.work-card__tags {
+  display: flex;
+  flex-wrap: wrap; /* 幅が狭まった時に折り返せるように */
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* 個別のタグ */
+.tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--color-primary, #007AFF);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(0, 122, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+/* ホバー時にタグの輪郭を強調 */
+.work-card:hover .tag {
+  border-color: var(--color-primary, #007AFF);
+  background: rgba(0, 122, 255, 0.08);
+}
+/* タグを包むコンテナ */
+.work-card__tags {
+  display: flex;       /* 横並びにする */
+  gap: 8px;            /* タグ同士の間隔 */
+  margin-bottom: 20px; /* 下との余白 */
+  
+  /* ★最重要：親の幅が狭まっても、絶対に改行させない */
+  white-space: nowrap; 
+  flex-wrap: nowrap;   /* 折り返しを物理的に禁止 */
+}
+
+/* 個別のタグ（念のためここにも設定） */
+.tag {
+  flex-shrink: 0;      /* タグ自体がギュッと潰れるのを防ぐ */
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--color-primary, #007AFF);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(0, 122, 255, 0.03);
+}
+/* HeroもAboutもWorksも、左端はこれで統一 */
+.hero__inner,
+.split-section__content,
+.works__inner,
+.contact__inner {
+  padding-left: 3%; /* 前に決めた数値に合わせる */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* スプリットセクションの左側エリアを整理 */
+.split-section__left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 左寄せ */
+  background: var(--color-bg-light);
+  padding: 80px 0; /* 上下の余白を確保 */
+}
+
+/* 右側エリアの基盤 */
+.split-section__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  position: relative;
+  min-height: 650px;
+  padding: 60px;
+  overflow: hidden;
+}
+
+/* ギャラリーコンテナ */
+.about-gallery {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3 / 4;
+}
+
+/* 画像アイテムの共通設定 */
+.about-gallery__item {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 20px; /* 少し角を丸くしてモダンに */
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none; /* ★マウスに反応させない（クリック不可を明示） */
+}
+
+/* 1枚目：メイン */
+.about-gallery__item--main {
+  width: 80%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* 2枚目：サブ（前面） */
+.about-gallery__item--sub {
+  width: 65%;
+  height: 55%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  border: 6px solid #0a0a0a; /* 重なりを強調 */
+}
+
+/* 画像の動き：ホバーで文字を出すのではなく、質感を変える */
+.about-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6; /* 通常時は少し沈ませる */
+  filter: saturate(0.5); /* 彩度を落としてストイックに */
+  transition: transform 2s ease, opacity 1s, filter 1s;
+}
+
+/* 親要素（about-gallery）にマウスが乗った時の全体の動き */
+.about-gallery:hover .about-gallery__item--main {
+  transform: translate(-15px, -15px) rotate(-1deg);
+}
+
+.about-gallery:hover .about-gallery__item--sub {
+  transform: translate(15px, 15px) rotate(1deg);
+}
+
+/* 画像が鮮明になる演出 */
+.about-gallery:hover .about-gallery__img {
+  opacity: 0.9;
+  filter: saturate(1);
+  transform: scale(1.08);
+}
+/* 右側エリア：背景を白（共通色）に統一 */
+.split-section__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg, #ffffff); /* 左側と同じ背景色に */
+  position: relative;
+  min-height: 650px;
+  padding: 60px;
+  overflow: hidden;
+}
+
+/* ギャラリーコンテナ */
+.about-gallery {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3 / 4;
+}
+
+/* 画像アイテム：白背景に映える繊細な影 */
+.about-gallery__item {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 20px;
+  /* 影を「真っ黒」から「薄い広がり」に変えて浮かび上がらせる */
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12); 
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s;
+  pointer-events: none;
+}
+
+/* 1枚目：メイン */
+.about-gallery__item--main {
+  width: 80%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* 2枚目：サブ */
+.about-gallery__item--sub {
+  width: 65%;
+  height: 55%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  /* 白背景の場合、境界線（border）は背景と同じ色にするか、無しでもOK */
+  border: 8px solid var(--color-bg, #ffffff); 
+}
+
+/* 画像の動き：呼吸するようなエフェクトは維持 */
+.about-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8; /* 白背景なので、少し明るめからスタート */
+  filter: saturate(0.6) brightness(1.05); /* 明るさを微調整 */
+  transition: transform 2s ease, opacity 1s, filter 1s;
+}
+
+/* ホバー時の「呼吸」アニメーション */
+.about-gallery:hover .about-gallery__item--main {
+  transform: translate(-10px, -10px) rotate(-0.5deg);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+}
+
+.about-gallery:hover .about-gallery__item--sub {
+  transform: translate(15px, 15px) rotate(0.5deg);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.18);
+}
+
+.about-gallery:hover .about-gallery__img {
+  opacity: 1;
+  filter: saturate(1.1) brightness(1);
+  transform: scale(1.08);
+}
+/* 左側のエリア（親） */
+.split-section__left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  /* ★justify-contentを左寄せに変更 */
+  justify-content: flex-start; 
+  /* ★左端の余白を最小限（サイト共通の3%程度）にする */
+  padding-left: 3%; 
+  padding-right: 5%; /* 右側（中央線側）に余裕を持たせる */
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg, #ffffff);
+}
+
+/* テキストを包むコンテナ */
+.split-section__content {
+  max-width: 550px; /* 文字が右に伸びすぎないように制限 */
+  width: 100%;
+  /* 先ほど設定したtranslateX（マイナス移動）は削除するか0に */
+  transform: none; 
+}
+
+.hero-title {
+  /* 文字サイズは維持、または1行に収まるよう微調整 */
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1.0;
+  text-align: left; /* 左揃えを徹底 */
+  color: #000;
+  /* 境界線をまたがないのでmix-blend-modeは不要（外してもOK） */
+  mix-blend-mode: normal; 
+}
+/* --- WORKS セクションの装飾 --- */
+
+.works {
+  background: #ffffff; /* 白背景で清潔感を出す */
+  padding: 120px 0;
+}
+
+/* 親コンテナ：flexboxで横に並べる */
+.works__cards {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  height: 520px; /* 高さをしっかり確保 */
+  margin-top: 60px;
+}
+
+/* 各カードの基本スタイル */
+.work-card {
+  flex: 1; /* 最初は均等 */
+  min-width: 100px;
+  background: #fcfcfc;
+  border: 1px solid #eee;
+  border-radius: 24px;
+  padding: 40px 30px;
+  position: relative;
+  overflow: hidden; /* はみ出た要素を隠す */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  /* ★ヌルッとしたアニメーションの核 */
+  transition: all 0.7s cubic-bezier(0.2, 1, 0.2, 1);
+  cursor: pointer;
+}
+
+/* ★ホバーした時：幅を広げる */
+.work-card:hover {
+  flex: 2.5; /* 他の箱より圧倒的に広く */
+  background: #ffffff;
+  border-color: #000;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
+}
+
+/* ホバーされていない他のカードを薄くする */
+.works__cards:has(.work-card:hover) .work-card:not(:hover) {
+  opacity: 0.5;
+  filter: grayscale(1); /* 白黒にして脇役感を出す */
+}
+
+/* --- カード内部の装飾 --- */
+
+/* 中身が縮んだ時に崩れないように固定 */
+.work-card__content {
+  width: 400px; /* 広がった時の最大幅 */
+  flex-shrink: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* カード番号 (01, 02...) */
+.work-card__number {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #ccc;
+  margin-bottom: 20px;
+  transition: color 0.5s ease;
+}
+
+.work-card:hover .work-card__number {
+  color: #000;
+}
+
+/* タグの装飾 */
+.work-card__tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  white-space: nowrap; /* 縮んだ時に折り返さない */
+}
+
+.tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 4px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+
+.work-card:hover .tag {
+  border-color: #000;
+  color: #000;
+}
+
+/* タイトルとテキスト */
+.work-card__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.work-card__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666;
+  opacity: 0; /* 最初は隠しておく */
+  transform: translateY(10px);
+  transition: all 0.5s ease 0.2s; /* 少し遅れて表示 */
+}
+
+.work-card:hover .work-card__text {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* --- カード番号 (01, 02...) の装飾 --- */
+
+.work-card__number {
+  /* ★最重要：巨大化 */
+  font-size: clamp(4rem, 10vw, 7rem); /* 圧倒的なデカさ（4rem〜7remまで可変） */
+  font-weight: 900;                   /* 極限まで太く */
+  line-height: 0.8;                   /* 行間を詰めて、よりタイトに */
+  letter-spacing: -0.05em;             /* 字間を詰めて、プロのタイポグラフィへ */
+  
+  /* ★中抜き文字（アウトライン）にする設定 */
+  -webkit-text-stroke: 1.5px #ccc;    /* 線の太さと色（薄いグレー） */
+  color: transparent;                 /* 中身を透明にする */
+  
+  /* 配置の調整 */
+  margin-top: -20px;  /* 上のパディングを少し相殺 */
+  margin-bottom: 30px; /* 下との間隔 */
+  
+  /* ヌルッとしたアニメーション */
+  transition: all 0.7s cubic-bezier(0.2, 1, 0.2, 1);
+  opacity: 0.8; /* 最初は少し薄くしておく */
+}
+
+/* ★ホバーした時：番号を強調する */
+.work-card:hover .work-card__number {
+  -webkit-text-stroke: 2px #000;    /* 線を太く、黒くする */
+  opacity: 1;                       /* 透明度を100%に */
+  transform: translateX(10px) scale(1.05); /* 少し右にずらして大きくする演出 */
+}
+/* Heroセクション全体の余白調整 */
+.hero {
+  /* ★上の余白を大幅に増やす（8rem = 約128px、必要に応じて調整してください） */
+  padding: 10rem 0 5rem; 
+  min-height: 85vh; /* 画面の高さに対してゆとりを持たせる */
+  display: flex;
+  align-items: center; /* 上下の中心付近にコンテンツを配置 */
+}
+
+.hero__inner {
+  display: flex;
+  align-items: flex-start; /* コンテンツの上端を揃える */
+  justify-content: space-between;
+  gap: 4rem; /* 画像と文字の間隔も少し広げて呼吸させる */
+  width: 100%;
+}
+
+.hero__catch {
+  /* ★文字自体の上の余白も微調整したい場合はここ */
+  margin: 0 0 2rem; 
+  font-size: clamp(2.5rem, 6vw, 3.8rem); /* 少しだけサイズアップして堂々と */
+  line-height: 1.1;
+}
+/* 画面幅が768px以下の時の「最終上書き」 */
+@media (max-width: 768px) {
+
+  /* 1. 左右分割を解除して縦に並べる */
+  .split-section {
+    display: block !important; /* flexを解除 */
+    height: auto !important;
+  }
+
+  /* 2. 左側（文章）の「画面固定」を解除する */
+  .split-section__left {
+    width: 100% !important;
+    height: auto !important;   /* 100vh（全画面）を解除 */
+    position: relative !important; /* sticky（固定）を解除 */
+    top: auto !important;
+    padding: 60px 5% 30px 5% !important; /* 余白をスマホ用に調整 */
+    display: block !important;
+  }
+
+  /* 3. 右側（写真）の幅を広げ、押し込みを防止 */
+  .split-section__right {
+    width: 100% !important;
+    padding: 20px 5% 60px 5% !important;
+    display: block !important;
+  }
+
+  /* 4. 写真自体のサイズをしっかり確保する */
+  .work-link {
+    width: 100% !important;
+    margin-bottom: 40px !important; /* 写真同士の間隔 */
+  }
+
+  .split-section__img {
+    width: 100% !important;
+    height: 250px !important; /* ★ここで高さを出すことで「ちっちゃい」を解決 */
+    object-fit: cover !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+}
+/* --- WORKS スマホ版：スワイプ＆フォーカス演出 --- */
+@media (max-width: 768px) {
+  /* 親コンテナの設定 */
+  .works__cards {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    padding: 40px 10% 80px !important; /* 左右に余白 */
+    gap: 20px !important;
+    height: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 通常時のカード：薄く、小さく、モノクロ */
+  .work-card {
+    flex: 0 0 120% !important;
+    min-height: 520px !important;
+    height: auto !important;
+    scroll-snap-align: center;
+    
+    /* ここがポイント：最初はあえて薄くする */
+    opacity: 1.0 !important; 
+    transform: scale(0.9) !important;
+    filter: grayscale(1) !important;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.2, 1) !important;
+    background: #ffffff !important;
+  }
+
+  /* ★JavaScriptで中央検知された時の状態：ここを最強(濃く)にする */
+  .work-card.is-active {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    filter: grayscale(0) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+    border-color: var(--color-primary) !important;
+  }
+
+  /* 中央に来たカードの文字をハッキリさせる */
+  .work-card.is-active .work-card__title {
+    color: #000 !important;
+  }
+  .work-card.is-active .work-card__text {
+    opacity: 1 !important;
+    color: #333 !important;
+  }
+  .work-card.is-active .work-card__number {
+    -webkit-text-stroke: 1.5px #000 !important;
+    opacity: 1 !important;
+  }
+}
+@media (max-width: 768px) {
+  /* 説明文の折り返し設定を上書き */
+  .work-card__text {
+    white-space: normal !important; /* 改行を許可する */
+    overflow: visible !important;   /* はみ出しを隠さない */
+    text-overflow: clip !important; /* 三点リーダー(...)を解除 */
+    
+    display: block !important;      /* ブロック要素として表示 */
+    width: 100% !important;         /* 幅いっぱいを使う */
+    
+    font-size: 0.95rem !important;  /* 読みやすいサイズ感 */
+    line-height: 1.6 !important;    /* 行間を広げて読みやすく */
+    margin-top: 15px !important;    /* タイトルとの隙間 */
+  }
+
+  /* ついでにタイトルも2行以上になっても崩れないようにする */
+  .work-card__title {
+    white-space: normal !important;
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+  }
+}
