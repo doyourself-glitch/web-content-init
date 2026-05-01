@@ -3,7 +3,7 @@
 > **「AIの圧倒的な速度」と「人間にしか宿せない感性」の融合を形にする。**
 > 最新のWeb標準技術を用い、ユーザーの「スクロール」という能動的な体験に呼応するインタラクティブ・ポートフォリオ。
 
-[Live Demo を見る]([あなたのVercel/GitHub PagesのURL])
+[web-content-init-cig87w54v-doyourself-glitchs-projects.vercel.app]([GitHub PagesのURL])
 
 ---
 
